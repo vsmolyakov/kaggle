@@ -11,7 +11,7 @@ In the forest cover competition the idea is to use a set of measured cartographi
 <img src="https://github.com/vsmolyakov/kaggle/blob/master/forest_cover/figures/svm.png" />
 </p>
 
-The figure above shows an SVM classifier with radial basis function (RBF) kernel decision boundary for two classes. The features can be ranked by their predictive power and it was found that elevation and soil type can discriminate well between different forest cover types. Grid search cross-validation was used to find the optimum penalty parameter for SVM error term.
+The figure above shows an SVM classifier with radial basis function (RBF) kernel decision boundary for two classes where support vectors are circled. The features can be ranked by their predictive power and it was found that elevation and soil type can discriminate well between different forest cover types. Grid search cross-validation was used to find the optimum penalty parameter for the SVM error term.
 
 References:  
 *https://www.kaggle.com/c/forest-cover-type-prediction*  
