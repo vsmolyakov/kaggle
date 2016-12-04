@@ -11,7 +11,7 @@ In the bike sharing competition we want to predict the bike demand given tempora
 <img src="https://github.com/vsmolyakov/kaggle/blob/master/bike_sharing/figures/bike_demand_merged.png" />
 </p>
 
-The figure above shows hourly bike demand ploted for every day of the week (left) and the feature ranking extraced by random forest regressor (right). We can see that during the weekdays the peak demand is at 8am and 5pm, while on the weekend the demand rises between 12 noon and 3 pm. It's interesting to note that the most predictive feature is the hour, which was extracted from the timestamp, followed by temperature, humidity and day of the week.
+The figure above shows hourly bike demand ploted for every day of the week (left) and the feature ranking extracted by random forest regressor (right). We can see that during the weekdays the peak demand is at 8am and 5pm, while on the weekend the demand rises between 12 noon and 3 pm. It's interesting to note that the most predictive feature is the hour, which was extracted from the timestamp, followed by temperature, humidity and day of the week.
 
 References:  
 *https://www.kaggle.com/c/bike-sharing-demand*  
