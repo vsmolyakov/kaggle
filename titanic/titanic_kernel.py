@@ -4,11 +4,13 @@ import csv as csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-# machine learning
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import VotingClassifier
+
+np.random.seed(0)
 
 if __name__ == "__main__":
     
@@ -88,12 +90,17 @@ if __name__ == "__main__":
     knn.fit(X_train, y_train)
     score_knn = knn.score(X_train, y_train)
     out_knn = knn.predict(X_test)
-    print "knn score: %f" %score_knn                            
+    print "knn score: %f" %score_knn           
+
+    #voting classifier    
+    vclf = VotingClassifier(estimators=[('rf',rfc),('lr',logreg),('svm',svc),('knn',knn)], voting='hard', weights=[2,1,2,1])
+    vclf.fit(X_train, y_train)
+    out_vclf = vclf.predict(X_test)
             
     #write out predictions 
     predictions_file = open("titanic_pred.csv", "wb")
     open_file_object = csv.writer(predictions_file)
     open_file_object.writerow(["PassengerId","Survived"])
-    open_file_object.writerows(zip(idx, out_rfc))
+    open_file_object.writerows(zip(idx, out_vclf.astype(int)))
     predictions_file.close()         
             
