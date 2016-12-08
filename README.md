@@ -3,6 +3,20 @@ Kaggle Competitions
 
 ### Description
 
+**Digit Recognizer**
+
+In the digit recognizer competition the goal is to classify hand drawn digits into one of ten classes. The training data are 28x28 grayscale images of digits and the associated labels.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/digits/figures/lenet_cnn.png" />
+</p>
+
+The figure above shows LeNet Convolutional Neural Network (CNN) architecture that consists of two 2D convolutional and max-pooling layers followed by a fully connected layer and a soft-max classifier. Increasing the number of training epochs enables better test accuracy of the LeNet CNN.
+
+References:  
+*https://www.kaggle.com/c/digit-recognizer*  
+
+
 **Bike Sharing**
 
 In the bike sharing competition we want to predict the bike demand given temporal data of bike checkouts and associated features such as season, temperature, humidity, weather and others.
