@@ -3,6 +3,20 @@ Kaggle Competitions
 
 ### Description
 
+**Denoising**
+
+In the document denoising competition the goal is to remove background noise as a preprocessing step for an Optical Character Recognition (OCR) system.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/denoising/figures/denoising_merged.png" />
+</p>
+
+The figure above shows training data consisting of a noisy and denoised images. A fully connected and a convolutional autoencoders were used to denoise the image. Increasing the depth and the width of the autonencoders enables higher test accuracy.
+
+References:  
+*https://www.kaggle.com/c/denoising-dirty-documents*  
+
+
 **Digit Recognizer**
 
 In the digit recognizer competition the goal is to classify hand drawn digits into one of ten classes. The training data are 28x28 grayscale images of digits and the associated labels.
