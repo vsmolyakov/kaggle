@@ -3,6 +3,20 @@ Kaggle Competitions
 
 ### Description
 
+**Sentiment Prediction**
+
+The goal of this competition is to learn and predict sentiment of movie reviews from the Rotten Tomatoes dataset. LSTM recurrent neural net (RNN) was used to predict the sentiment based on pre-processed text. The pre-processing included tokenization, stop-word removal and word stemming. The word tokens were converted to token Ids sequences that were padded and used as an input to LSTM.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/sentiment/figures/LSTM_chain.png" />
+</p>
+
+The figure above shows LSTM architecture with three hidden units, highlighting its ability to process sequential data. 
+
+References:  
+*https://www.kaggle.com/c/sentiment-analysis-on-movie-reviews*  
+
+
 **Denoising**
 
 In the document denoising competition the goal is to remove background noise as a preprocessing step for an Optical Character Recognition (OCR) system.
