@@ -3,6 +3,20 @@ Kaggle Competitions
 
 ### Description
 
+**word2vec**
+
+In this competition, the goal is to predict a sentiment label for a dataset of 50,000 IMDB movie reviews. The sentiment is binary so that IMDB ratings < 5 result in a sentiment score of 0 and ratings >= 7 have a sentiment score of 1. The XGboost algorithm was trained on a term-document matrix where each row is a tf-idf vector representation of a review.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/word2vec/figures/word2vec_merged.png" />
+</p>
+
+The figure above shows a t-SNE embedding of the word vectors for the first 2000 reviews. The size of the word feature space was set to 5000. With a tree depth of 10 and 10 boosting iterations, XGboost algorithm achieves low test error rate.
+
+References:  
+*https://www.kaggle.com/c/word2vec-nlp-tutorial*  
+
+
 **Sentiment Prediction**
 
 The goal of this competition is to learn and predict sentiment of movie reviews from the Rotten Tomatoes dataset. LSTM recurrent neural net (RNN) was used to predict the sentiment based on pre-processed text. The pre-processing included tokenization, stop-word removal and word stemming. The word tokens were converted to token Ids sequences that were padded and used as an input to LSTM.
