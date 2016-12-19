@@ -3,6 +3,20 @@ Kaggle Competitions
 
 ### Description
 
+**two sigma**
+
+In the two sigma financial modelling challenge, we are given fundamental, technical and derived indicators for a time-varying portfolio of assets and our goal is to predict time-series 'y'. 
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/two_sigma/figures/two_sigma_merged.png" />
+</p>
+
+The figure above shows the mean and standard deviation of 'y' as a function of time. To predict the time series, an ensemble of a linear model (ridge regression) and a tree model (xgboost) was used.
+
+References:  
+*https://www.kaggle.com/c/two-sigma-financial-modeling*  
+
+
 **word2vec**
 
 In this competition, the goal is to predict a sentiment label for a dataset of 50,000 IMDB movie reviews. The sentiment is binary so that IMDB ratings < 5 result in a sentiment score of 0 and ratings >= 7 have a sentiment score of 1. The XGboost algorithm was trained on a term-document matrix where each row is a tf-idf vector representation of a review.
