@@ -17,6 +17,20 @@ References:
 *https://www.kaggle.com/c/two-sigma-financial-modeling*  
 
 
+**Facial Keypoints**
+
+The objective of this competition is to predict facial keypoint positions on face images. This can be used as a building block for tracking faces in images and videos, analysing facial expressions, and facial recognition. The keypoints include eye centers and corners, nose tip, mouth corners and others.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/keypoints/figures/keypoints_merged.png" />
+</p>
+
+The figure above shows the predicted keypoints on 16 test images. The results look good after only 100 training epochs.
+
+References:  
+*https://www.kaggle.com/c/facial-keypoints-detection*  
+
+
 **word2vec**
 
 In this competition, the goal is to predict a sentiment label for a dataset of 50,000 IMDB movie reviews. The sentiment is binary so that IMDB ratings < 5 result in a sentiment score of 0 and ratings >= 7 have a sentiment score of 1. The XGboost algorithm was trained on a term-document matrix where each row is a tf-idf vector representation of a review.
