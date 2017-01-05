@@ -16,6 +16,19 @@ The figure above shows the mean and standard deviation of 'y' as a function of t
 References:  
 *https://www.kaggle.com/c/two-sigma-financial-modeling*  
 
+**Stack Exchange**
+
+The goal of this competition is to predict a stack exchange tag for the physics site based on titles, text and tags of stack exchange questions from six different sites. An unsupervised approach is taken here, in which word frequencies are computed for titles and text and the top ten in each category are merged to yield the final list of tags sorted by the frequency of occurence.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/stack_exchange/figures/robotics.png" />
+</p>
+
+The figure above shows a wordcloud of tags for the robotics stack exchange. The physics stack exchange tags were predicted based on purely the frequency of physics titles and text words.
+
+References:  
+*https://www.kaggle.com/c/transfer-learning-on-stack-exchange-tags*  
+
 
 **Facial Keypoints**
 
