@@ -3,6 +3,20 @@ Kaggle Competitions
 
 ### Description
 
+**sberbank**
+
+The goal of Sberbank Russian Housing Market competition is to predict the log housing price based on a number of real estate features and economic indicators. An ensemble of lasso regression, random forest, xgboost and MLP was used to predict the housing price.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/sberbank/figures/sberbank_merged.png" />
+</p>
+
+The figure above explores the patterns in housing dataset. In particular, we can see relationship between price and housing area (left), price and build year as well as floor number (middle), and sales volume and room count (right).
+
+References:  
+*https://www.kaggle.com/c/sberbank-russian-housing-market*  
+
+
 **two sigma**
 
 In the two sigma financial modelling challenge, we are given fundamental, technical and derived indicators for a time-varying portfolio of assets and our goal is to predict time-series 'y'. 
