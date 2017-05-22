@@ -11,7 +11,7 @@ In quora question pairs challenge, the goal is to identify duplicate questions. 
 <img src="https://github.com/vsmolyakov/kaggle/blob/master/quora/figures/dataset.png" />
 </p>
 
-The figure above shows four examples from the dataset. To measure similarity between question pairs, features as shared words and pretrained Glove word embeddings were used. Additional features such as sentences distances can help improve the performance.
+The figure above shows four examples from the dataset. To measure similarity between question pairs, features such as shared words and Glove word embeddings were used. Additional features such as sentences distances can help improve performance.
 
 References:  
 *https://www.kaggle.com/c/quora-question-pairs*  
