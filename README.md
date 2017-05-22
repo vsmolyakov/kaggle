@@ -3,6 +3,19 @@ Kaggle Competitions
 
 ### Description
 
+**quora**
+
+In quora question pairs challenge, the goal is to identify duplicate questions. Two approaches were taken to solve this problem: feature engineering with xgboost and neural network classifier.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/quora/figures/dataset.png" />
+</p>
+
+The figure above shows four examples from the dataset. To measure similarity between question pairs, features as shared words and pretrained Glove word embeddings were used. Additional features such as sentences distances can help improve the performance.
+
+References:  
+*https://www.kaggle.com/c/quora-question-pairs*  
+
 **sberbank**
 
 The goal of Sberbank Russian Housing Market competition is to predict the log housing price based on a number of real estate features and economic indicators. An ensemble of lasso regression, random forest, xgboost and MLP was used to predict the housing price.
@@ -15,7 +28,6 @@ The figure above explores the patterns in housing dataset. In particular, we can
 
 References:  
 *https://www.kaggle.com/c/sberbank-russian-housing-market*  
-
 
 **two sigma**
 
