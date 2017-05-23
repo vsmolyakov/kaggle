@@ -165,6 +165,10 @@ The figure above shows the random forrest classifier trained on a subset of data
 References:  
 *https://www.kaggle.com/c/titanic*  
 
+### Datasets
+
+Check out dataset visualizations with Tableau at:
+*https://public.tableau.com/profile/vadim.smolyakov#!/*
  
 ### Dependencies
 
