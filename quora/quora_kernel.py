@@ -8,7 +8,7 @@ from sklearn.metrics import log_loss
 from sklearn.metrics import roc_auc_score
 
 from nltk.corpus import stopwords
-from collections import Counter
+from collections import Counter, defaultdict
 
 from sklearn.model_selection import train_test_split
 
@@ -64,12 +64,47 @@ def get_weight(count, eps=10000, min_count=2):
     else:
         return 1 / float(count + eps)
 
+def jaccard(row):
+    wic = set(str(row['question1'])).intersection(set(str(row['question2'])))
+    uw = set(str(row['question1'])).union(str(row['question2']))
+    if len(uw) == 0:
+        uw = [1]
+    return (len(wic) / len(uw))
+
+def wc_diff(row):
+    return abs(len(str(row['question1'])) - len(str(row['question2'])))
+        
+def q1_freq(row):
+    return(len(q_dict[str(row['question1'])]))
+
+def q2_freq(row):
+    return(len(q_dict[str(row['question2'])]))
+    
+def q1_q2_intersect(row):
+    return(len(set(q_dict[str(row['question1'])]).intersection(set(q_dict[str(row['question2'])]))))
+
+
+#load data
+train_df = pd.read_csv("./data/train.csv")
+test_df  = pd.read_csv("./data/test.csv")
+
+train_qs = pd.Series(train_df['question1'].tolist() + train_df['question2'].tolist()).astype(str)
+
+#global dictionaries
+print "creating global weights dictionary..."
+eps = 5000 
+words = (" ".join(train_qs)).lower().split()
+counts = Counter(words)
+weights = {word: get_weight(count, eps) for word, count in counts.items()}
+
+print "creating global questions dictionary..."
+ques = pd.concat([train_df[['question1', 'question2']], test_df[['question1', 'question2']]], axis=0).reset_index(drop='index')
+q_dict = defaultdict(set)
+for i in range(ques.shape[0]):
+    q_dict[ques.question1[i]].add(ques.question2[i])
+    q_dict[ques.question2[i]].add(ques.question1[i])
 
 def main():
-
-    #load data
-    train_df = pd.read_csv("./data/train.csv")
-    test_df  = pd.read_csv("./data/test.csv")    
     
     #data analysis
     qids = pd.Series(train_df['qid1'].tolist() + train_df['qid2'].tolist())
@@ -77,7 +112,6 @@ def main():
     print "percent duplicate pairs: ", round(train_df['is_duplicate'].mean()*100.0,2)
     print "total number of questions in the training data: ", len(np.unique(qids))
     print "number of questions that appear multiple times: ", np.sum(qids.value_counts() > 1)
-
 
     plt.figure()
     plt.hist(qids.value_counts(), bins=50)
@@ -89,7 +123,6 @@ def main():
     
     train_qs = pd.Series(train_df['question1'].tolist() + train_df['question2'].tolist()).astype(str)
     test_qs = pd.Series(test_df['question1'].tolist() + test_df['question2'].tolist()).astype(str)
-
 
     dist_train = train_qs.apply(len)
     dist_test = test_qs.apply(len)    
@@ -104,7 +137,7 @@ def main():
     plt.show()
     
     print "mean-train: %2.2f, std-train: %2.2f, mean-test: %2.2f, std-test: %2.2f" %(dist_train.mean(), dist_train.std(), dist_test.mean(), dist_test.std())
-
+ 
     dist_train = train_qs.apply(lambda x: len(x.split(' ')))
     dist_test = test_qs.apply(lambda x: len(x.split(' ')))
     
@@ -116,17 +149,11 @@ def main():
     plt.ylabel('probability')
     plt.legend()
     plt.show()
-
         
     #feature engineering
     train_word_match = train_df.apply(word_match_share, axis=1, raw=True)
-    print 'Original AUC:', roc_auc_score(train_df['is_duplicate'], train_word_match)
-
-    eps = 5000 
-    words = (" ".join(train_qs)).lower().split()
-    counts = Counter(words)
-    weights = {word: get_weight(count, eps) for word, count in counts.items()}
-
+    print 'word match AUC:', roc_auc_score(train_df['is_duplicate'], train_word_match)
+    
     print 'Most common words and weights:'
     print sorted(weights.items(), key=lambda x: x[1] if x[1] > 0 else 9999)[:10]
     print 'Least common words and weights: '
@@ -135,18 +162,33 @@ def main():
     tfidf_train_word_match = train_df.apply(tfidf_word_match_share, axis=1, raw=True)
     tfidf_train_word_match = tfidf_train_word_match.fillna(0)
     print 'TFIDF AUC:', roc_auc_score(train_df['is_duplicate'], tfidf_train_word_match)
-    
-    print "creating data..."
+
+    train_jaccard = train_df.apply(jaccard, axis=1, raw=True)
+    print 'jaccard AUC:', roc_auc_score(train_df['is_duplicate'], train_jaccard)            
+
+    train_wc_diff = train_df.apply(wc_diff, axis=1, raw=True)    
+    train_q1_q2_intersect = train_df.apply(q1_q2_intersect, axis=1, raw=True)       
+                                                                                                                                                                    
+    print "creating training data..."
     X_train = pd.DataFrame()
     X_test = pd.DataFrame()
     X_train['word_match'] = train_word_match
     X_train['tfidf_word_match'] = tfidf_train_word_match    
+    X_train['jaccard'] = train_jaccard
+    X_train['wc_diff'] = train_wc_diff
+    X_train['q1_q2_intersect'] = train_q1_q2_intersect
+
+    print "creating test data..."
     X_test['word_match'] = test_df.apply(word_match_share, axis=1, raw=True)
     X_test['tfidf_word_match'] = test_df.apply(tfidf_word_match_share, axis=1, raw=True)
+    X_test['jaccard'] = test_df.apply(jaccard, axis=1, raw=True)
+    X_test['wc_diff'] = test_df.apply(wc_diff, axis=1, raw=True)
+    X_test['q1_q2_intersect'] = test_df.apply(q1_q2_intersect, axis=1, raw=True)
+    
     X_test = X_test.fillna(0)
     y_train = train_df['is_duplicate'].values
         
-    X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=0.2, random_state=4242)
+    X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=0.2, random_state=0)
     
     params = {}
     params['objective'] = 'binary:logistic'
