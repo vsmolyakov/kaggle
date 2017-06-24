@@ -52,7 +52,13 @@ def main():
     train_df.loc[train_df['build_year'] == 3, 'build_year'] = np.nan
     train_df.loc[train_df['build_year'] == 71, 'build_year'] = np.nan
     
-    #missing data imputation, merging and label encoding
+    # truncate the extreme values in price_doc
+    ulimit = np.percentile(train_df.price_doc.values, 99)
+    llimit = np.percentile(train_df.price_doc.values, 1)
+    train_df['price_doc'].loc[train_df['price_doc']>ulimit] = ulimit
+    train_df['price_doc'].loc[train_df['price_doc']<llimit] = llimit
+    
+    #missing data imputation, merging, feature engineering and label encoding
     train_df['env'] = 'train'
     test_df['env'] = 'test'
     test_idx = test_df['id']
@@ -60,9 +66,9 @@ def main():
     train_df.drop(['id'], axis=1, inplace=True)    
     test_df.drop(['id'], axis=1, inplace=True)    
     test_df['price_doc'] = 0
-    
-    train_df = train_df.dropna()  #drop training rows
-    macro_df = macro_df.dropna()
+        
+    #train_df = train_df.dropna()  #drop training rows
+    #macro_df = macro_df.dropna()
     tdf_med = test_df.median()    
     tdf_product_mode = stats.mode(test_df['product_type'])[0][0]            
     test_df = test_df.fillna(tdf_med)  #fill-in test rows
@@ -75,8 +81,29 @@ def main():
     print "num nans: ", all_df.isnull().sum().sum()
 
     #add month and day of week    
+    all_df["year"] = all_df.timestamp.dt.year
     all_df['month'] = all_df.timestamp.dt.month
     all_df['dow'] = all_df.timestamp.dt.dayofweek
+        
+    #add month-year
+    month_year = (all_df.timestamp.dt.month + all_df.timestamp.dt.year * 100)
+    month_year_cnt_map = month_year.value_counts().to_dict()
+    all_df['month_year_cnt'] = month_year.map(month_year_cnt_map)    
+    
+    #add week-year count
+    week_year = (all_df.timestamp.dt.weekofyear + all_df.timestamp.dt.year * 100)
+    week_year_cnt_map = week_year.value_counts().to_dict()
+    all_df['week_year_cnt'] = week_year.map(week_year_cnt_map)
+            
+    # num of floor from top
+    all_df["floor_from_top"] = all_df["max_floor"] - all_df["floor"]
+
+    # difference between full area and living area
+    all_df["extra_sq"] = all_df["full_sq"] - all_df["life_sq"]
+    
+    # age of building
+    all_df["age_of_building"] = all_df["build_year"] - all_df["year"]
+
 
     for f in all_df.columns:
         if all_df[f].dtype == 'object' and f is not 'env':
@@ -212,13 +239,13 @@ def main():
     print "running MLP..."
     model = Sequential()
     
-    model.add(Dense(40, input_dim = X_train.shape[1], init = 'he_normal'))
+    model.add(Dense(64, input_dim = X_train.shape[1], init = 'he_normal'))
     model.add(Activation('relu'))
     model.add(BatchNormalization())
-    model.add(Dense(40, init = 'he_normal'))
+    model.add(Dense(32, init = 'he_normal'))
     model.add(Activation('relu'))
     model.add(BatchNormalization())    
-    model.add(Dense(20, init = 'he_normal'))
+    model.add(Dense(16, init = 'he_normal'))
     model.add(Activation('relu'))
     model.add(BatchNormalization())    
     model.add(Dense(1, init = 'he_normal'))
