@@ -3,7 +3,7 @@ Kaggle Competitions
 
 ### Description
 
-## cdiscount
+### cdiscount
 
 The goal of cdiscount competition is to classify product images into more than 5000 categories. The training dataset consists of over 15 million images at 180x180 resolution stored in bson format. 
 
@@ -16,7 +16,7 @@ The figure above (left) shows a sample of product images with titles correspondi
 References:  
 *https://www.kaggle.com/c/cdiscount-image-classification-challenge*  
 
-**quora**
+## quora
 
 In quora question pairs challenge, the goal is to identify duplicate questions. Two approaches were taken to solve this problem: feature engineering with xgboost and neural network classifier.
 
@@ -29,7 +29,7 @@ The figure above shows four examples from the dataset. To measure similarity bet
 References:  
 *https://www.kaggle.com/c/quora-question-pairs*  
 
-**sberbank**
+## sberbank
 
 The goal of Sberbank Russian Housing Market competition is to predict the log housing price based on a number of real estate features and economic indicators. An ensemble of lasso regression, random forest, xgboost and MLP was used to predict the housing price.
 
@@ -42,7 +42,7 @@ The figure above explores the patterns in housing dataset. In particular, we can
 References:  
 *https://www.kaggle.com/c/sberbank-russian-housing-market*  
 
-**two sigma**
+## two sigma
 
 In the two sigma financial modelling challenge, we are given fundamental, technical and derived indicators for a time-varying portfolio of assets and our goal is to predict time-series 'y'. 
 
@@ -55,7 +55,7 @@ The figure above shows the mean and standard deviation of 'y' as a function of t
 References:  
 *https://www.kaggle.com/c/two-sigma-financial-modeling*  
 
-**Stack Exchange**
+## Stack Exchange
 
 The goal of this competition is to predict a stack exchange tag for the physics site based on titles, text and tags of stack exchange questions from six different sites. An unsupervised approach is taken here, in which word frequencies are computed for titles and text and the top ten in each category are merged to yield the final list of tags sorted by the frequency of occurence.
 
@@ -69,7 +69,7 @@ References:
 *https://www.kaggle.com/c/transfer-learning-on-stack-exchange-tags*  
 
 
-**Facial Keypoints**
+## Facial Keypoints
 
 The objective of this competition is to predict facial keypoint positions on face images. This can be used as a building block for tracking faces in images and videos, analysing facial expressions, and facial recognition. The keypoints include eye centers and corners, nose tip, mouth corners and others.
 
@@ -82,8 +82,7 @@ The figure above shows the predicted keypoints on 16 test images. The results lo
 References:  
 *https://www.kaggle.com/c/facial-keypoints-detection*  
 
-
-**word2vec**
+## word2vec
 
 In this competition, the goal is to predict a sentiment label for a dataset of 50,000 IMDB movie reviews. The sentiment is binary so that IMDB ratings < 5 result in a sentiment score of 0 and ratings >= 7 have a sentiment score of 1. The XGboost algorithm was trained on a term-document matrix where each row is a tf-idf vector representation of a review.
 
@@ -96,8 +95,7 @@ The figure above shows a t-SNE embedding of the word vectors for the first 2000 
 References:  
 *https://www.kaggle.com/c/word2vec-nlp-tutorial*  
 
-
-**Sentiment Prediction**
+## Sentiment Prediction
 
 The goal of this competition is to learn and predict sentiment of movie reviews from the Rotten Tomatoes dataset. LSTM recurrent neural net (RNN) was used to predict the sentiment based on pre-processed text. The pre-processing included tokenization, stop-word removal and word stemming. The word tokens were converted to token Ids sequences that were padded and used as an input to LSTM.
 
@@ -111,7 +109,7 @@ References:
 *https://www.kaggle.com/c/sentiment-analysis-on-movie-reviews*  
 
 
-**Denoising**
+## Denoising
 
 In the document denoising competition the goal is to remove background noise as a preprocessing step for an Optical Character Recognition (OCR) system.
 
@@ -125,7 +123,7 @@ References:
 *https://www.kaggle.com/c/denoising-dirty-documents*  
 
 
-**Digit Recognizer**
+## Digit Recognizer
 
 In the digit recognizer competition the goal is to classify hand drawn digits into one of ten classes. The training data are 28x28 grayscale images of digits and the associated labels.
 
@@ -139,7 +137,7 @@ References:
 *https://www.kaggle.com/c/digit-recognizer*  
 
 
-**Bike Sharing**
+## Bike Sharing
 
 In the bike sharing competition we want to predict the bike demand given temporal data of bike checkouts and associated features such as season, temperature, humidity, weather and others.
 
@@ -152,7 +150,7 @@ The figure above shows hourly bike demand ploted for every day of the week (left
 References:  
 *https://www.kaggle.com/c/bike-sharing-demand*  
 
-**Forest Cover**
+## Forest Cover
 
 In the forest cover competition the idea is to use a set of measured cartographic variables to classify forest cover into one of 7 categories. The measurements include elevation, aspect, slope, distance to water, wilderness area and soil type among others.
 
@@ -165,7 +163,7 @@ The figure above shows an SVM classifier with radial basis function (RBF) kernel
 References:  
 *https://www.kaggle.com/c/forest-cover-type-prediction*  
 
-**Titanic**
+## Titanic
 
 In the titanic competition you are given a task of predicting the probability of survival based on the training data that includes age, gender, ticket price, passenger class etc...
 
