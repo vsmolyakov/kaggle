@@ -3,7 +3,7 @@ Kaggle Competitions
 
 ### Description
 
-##cdiscount
+## cdiscount
 
 The goal of cdiscount competition is to classify product images into more than 5000 categories. The training dataset consists of over 15 million images at 180x180 resolution stored in bson format. 
 
