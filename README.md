@@ -3,6 +3,16 @@ Kaggle Competitions
 
 ### Description
 
+**cdiscount**
+
+The goal of cdiscount competition is to classify product images into more than 5000 categories. The training dataset consists of over 15 million images at 180x180 resolution stored in bson format. 
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/cdiscount/figures/cdiscount_merged.png" />
+</p>
+
+The figure above (left) shows a sample of product images with titles corresponding to categories. We use transfer learning in this competition by fine-tuning ResNet50 trained on ImageNet to the product dataset with over 5000 categories. At chance level, the probability of predicting the correct category is 1/5000 = 0.0002. The figure above (right) shows the validation accuracy of 0.5 after only 8 epochs trained on a GTX Titan GPU, a significant increase! To achieve a boost in classification accuracy, we can try an ensemble of diverse and accurate classifiers: ResNet50, InceptionV3, VGG16, VGG19 and others with different initialization, exposed to different subsets of the dataset. Multi-GPU training in this case is highly desirable.
+
 **quora**
 
 In quora question pairs challenge, the goal is to identify duplicate questions. Two approaches were taken to solve this problem: feature engineering with xgboost and neural network classifier.
