@@ -1,7 +1,6 @@
 # kaggle
 Kaggle Competitions
 
-### Description
 
 ### cdiscount
 
@@ -18,13 +17,13 @@ References:
 
 ## quora
 
-In quora question pairs challenge, the goal is to identify duplicate questions. Two approaches were taken to solve this problem: feature engineering with xgboost and neural network classifier.
+In quora question pairs challenge, the goal is to identify duplicate questions. Two approaches were taken to solve this problem: feature engineering with xgboost and a neural network classifier.
 
 <p align="center">
 <img src="https://github.com/vsmolyakov/kaggle/blob/master/quora/figures/dataset.png" />
 </p>
 
-The figure above shows four examples from the dataset. To measure similarity between question pairs, features such as shared words and Glove word embeddings were used. Additional features such as sentences distances can help improve performance.
+The figure above shows four examples from the dataset. To measure similarity between question pairs, features such as shared words and cosine similarity between question encodings were used. Additional architectures, such as Siamese RNN, can help increase the area under ROC curve for the binary classification (similar vs non-similar question pair) task. 
 
 References:  
 *https://www.kaggle.com/c/quora-question-pairs*  
