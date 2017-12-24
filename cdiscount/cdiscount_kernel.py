@@ -12,7 +12,7 @@ import os, sys, io, math, bson, struct
 
 import keras
 from keras.models import Sequential, Model, load_model
-from keras.layers import Dense
+from keras.layers import Dense, Flatten
 from keras.applications import ResNet50
 from keras.preprocessing import image
 from keras.preprocessing.image import load_img, img_to_array
@@ -248,6 +248,7 @@ train_bson_path = DATA_PATH + '/data/train.bson'
 num_test_products = 1768182
 test_bson_path = DATA_PATH + '/data/test.bson'
 
+"""
 categories_df['category_idx'] = pd.Series(range(len(categories_df)), index=categories_df.index)
 categories_df.to_csv('./data/categories.csv')
 cat2idx, idx2cat = make_category_tables()
@@ -261,26 +262,25 @@ val_images_df.to_csv("./data/val_images.csv")
 
 print "number of training images: ", len(train_images_df)
 print "number of validation images: ", len(val_images_df)
+"""
 
 train_bson_file = open(train_bson_path, 'rb')
 lock = threading.Lock()
 
 #load saved dataframes
-"""
 print "loading saved dataframes..."
 categories_df = pd.read_csv("./data/categories.csv", index_col=0)
 cat2idx, idx2cat = make_category_tables()
 train_offset_df = pd.read_csv("./data/train_offsets.csv", index_col=0)
 train_images_df = pd.read_csv("./data/train_images.csv", index_col=0)
 val_images_df = pd.read_csv("./data/val_images.csv", index_col=0)
-"""
 
 #training parameters
 num_classes = 5270
 num_train_images = len(train_images_df)
 num_val_images = len(val_images_df)
 batch_size = 64 
-num_epochs = 8 #32 
+num_epochs = 5 #8 
 steps_per_epoch = num_train_images / batch_size 
 validation_steps = num_val_images / batch_size 
 
@@ -310,6 +310,9 @@ val_gen = BSONIterator(train_bson_file, val_images_df, train_offset_df,
 
 #instantiate pre-trained architecture
 print "compiling the model..."
+
+"""
+#ARCH 1 (feature extraction: new classifier, same resnet base)
 resnet = ResNet50(weights='imagenet', include_top=True)
 
 inp = resnet.input
@@ -324,18 +327,46 @@ for l, layer in enumerate(resnet_new.layers[:-1]):
 #ensure the last layer is trainable
 for l, layer in enumerate(resnet_new.layers[-1:]):
     layer.trainable = True
+"""
 
-adam = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+#ARCH 2 (fine tuning: new classifer and tune ResNet stage 5 using much lower learning rate)
+resnet_base = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+resnet_new = Sequential()
+resnet_new.add(resnet_base)
+resnet_new.add(Flatten())
+resnet_new.add(Dense(num_classes, activation='softmax'))
+
+#fine tuning
+resnet_base.trainable = True
+
+set_trainable = False
+for layer in resnet_base.layers:
+    if layer.name == 'res5a_branch2a':
+        set_trainable = True
+    if set_trainable:
+        layer.trainable = True
+    else:
+        layer.trainable = False
+    #end if
+#end for
+
+#TODO: ensemble of fine-tuned networks with ensemble weights tuned on validation data
+
+#feature extraction (lr=1e-3)
+#adam = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+#fine tuning (lr=1e-4)
+adam = optimizers.Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 resnet_new.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 resnet_new.summary()
 
 #create callbacks
 file_name = DATA_PATH + 'resnet-new-weights-checkpoint.hdf5'
-checkpoint = ModelCheckpoint(file_name, monitor='loss', verbose=1, save_best_only=True, mode='min')
+checkpoint = ModelCheckpoint(file_name, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
 tensor_board = TensorBoard(log_dir='./logs', write_graph=True)
 hist_lr = LR_hist()
 reduce_lr = LearningRateScheduler(step_decay) 
-early_stopping = EarlyStopping(monitor='loss', min_delta=0.01, patience=64, verbose=1)
+early_stopping = EarlyStopping(monitor='val_loss', min_delta=0.1, patience=64, verbose=1)
 callbacks_list = [checkpoint, tensor_board, hist_lr, reduce_lr, early_stopping]
 
 #train the model
@@ -348,7 +379,7 @@ resnet_new.save_weights(DATA_PATH + 'resnet_new_final_weights.h5', overwrite=Tru
 
 """
 #load saved model
-model = load_model(DATA_PATH + '/trained_models/resnet_new_final_model.h5')
+resnet_new = load_model(DATA_PATH + '/trained_models/resnet_new_final_model.h5')
 """
 
 #evaluate the model on test data
@@ -379,16 +410,17 @@ with tqdm(total=num_test_products) as pbar:
             # Add the image to the batch.
             batch_x[i] = x
 
-        prediction = model.predict(batch_x, batch_size=num_imgs)
+        prediction = resnet_new.predict(batch_x, batch_size=num_imgs)
         avg_pred = prediction.mean(axis=0)
         cat_idx = np.argmax(avg_pred)
 
         submission_df.iloc[c]["category_id"] = idx2cat[cat_idx]        
         pbar.update()
 
-submission_df.to_csv("./data/third_submission.csv.gz", compression="gzip", index=False)
+submission_df.to_csv("./data/fourth_submission.csv.gz", compression="gzip", index=False)
 
 #generate plots
+#TODO: show both training and validation loss / acc on one plot
 plt.figure()
 plt.plot(hist_resnet_new.history['val_loss'], label='ResNet50 new')
 plt.title('ResNet50 Transfer Learning')
@@ -413,6 +445,6 @@ plt.ylabel("Learning Rate")
 plt.legend()
 plt.savefig('./figures/resnet50_learning_rate.png')
 
-plot_model(model, to_file='./figures/resnet50_model.png')
+plot_model(resnet_new, to_file='./figures/resnet50_model.png')
 
 
