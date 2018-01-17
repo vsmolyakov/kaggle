@@ -1,6 +1,19 @@
 # kaggle
 Kaggle Competitions
 
+### speech
+
+The goal of tensorflow speech competition is to recognize simple voice commands spoken by thousands of different people. The training dataset consists of 65K one-second long utterances of 30 short words.
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/speech/figures/speech_merged.png" />
+</p>
+
+The figure above (left) shows a sample waveform of the word "yes" along with its spectogram. In this competition, an ensemble of multi-input CNN and LSTM models was trained to process images of spectograms and MFCC features in order to classify the spoken word into one of 30 categories. The models were trained end-to-end on image representation of speech. Data augmentation and re-sampling techniques were used to improve robustness of speech recognition. The figure above (right) shows the training and validation accuracy and cross-entropy loss as a result of training on a single GTX Titan GPU. We see no signs of over-fitting suggesting that we could use higher model capacity or addiation features to improve classification accuracy.
+
+References:  
+*https://www.kaggle.com/c/tensorflow-speech-recognition-challenge*  
+
 
 ### cdiscount
 
