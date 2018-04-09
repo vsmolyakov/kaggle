@@ -6,7 +6,7 @@ Kaggle Competitions
 The goal of online comments classification competition is to identify toxic comments and classify them into multiple categories, i.e. multi-label classification. LSTM and CNN neural neworks operating on pre-trained FastText word embeddings were used to identify patterns characteristic of toxic comments.
 
 <p align="center">
-<img src="https://github.com/vsmolyakov/kaggle/blob/master/speech/figures/toxic_merged.png" />
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/toxic/figures/toxic_merged.png" />
 </p>
 
 The figure above shows CNN loss (left), accuracy (middle) and learning rate (right) as a result of training (backpropagation) with Adam optimizer. CNNs provide a faster alternative to LSTM models. CNNs are translation invariant and in application to text make sense when there is no strong dependence on recent past vs distant past of the input sequence. CNNs can learn patterns in word embeddings and given the nature of the dataset (e.g. multiple misspellings, out of vocabulary words), it makes sense to use sub-word information represented in Fast-Text word embeddings.
