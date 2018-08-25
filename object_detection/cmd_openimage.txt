@@ -1,0 +1,6 @@
+#python create_pascal_tf_record.py --label_map_path=openimage_label_map.pbtxt --data_dir=s3://rue-dev-rds/vsmolyakov/open-images-kaggle/ --year=VOC2012 --set=train --output_path=openimage_train.record
+python create_pascal_tf_record.py --label_map_path=openimage_label_map.pbtxt --data_dir=s3://rue-dev-rds/vsmolyakov/open-images-kaggle/ --year=VOC2012 --set=val --output_path=openimage_val.record
+#python train.py --logtostderr --pipeline_config_path=ssd_inception_v2_coco.config --train_dir=/home/ubuntu/rue/object_detector/open_images_fashion --num_clones=2 --ps_tasks=1
+#python eval.py --logtostderr --pipeline_config_path=ssd_inception_v2_coco.config --checkpoint_dir=/home/ubuntu/rue/object_detector/open_images_fashion --eval_dir=/home/ubuntu/rue/object_detector/open_images_fashion
+#python export_inference_graph.py --input_type image_tensor --pipeline_config_path /home/ubuntu/rue/object_detector/open_images_fashion/ssd_inception_v2_coco.config --trained_checkpoint_prefix /home/ubuntu/rue/object_detector/open_images_fashion/model.ckpt-200000 --output_directory /home/ubuntu/rue/object_detector/open_images_fashion/export
+
