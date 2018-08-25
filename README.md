@@ -1,6 +1,20 @@
 # kaggle
 Kaggle Competitions
 
+### Google AI Open Images - Object Detection  
+
+TensorFlow Object Detection API is a research library maintained by Google that contains multiple pretrained, ready for transfer learning object detectors that provide different speed vs accuracy trade-offs. Examples include Faster R-CNN, YOLO, and SSD.  
+
+<p align="center">
+<img src="https://github.com/vsmolyakov/kaggle/blob/master/object_detection/figures/ssd_detector_merged.png" />
+</p>
+
+In the kite example image above we can see multiple objects detected at multiple scales. Object detectors allows us to capture rich information about the image (when a single label is not informative enough) and is the key technology behind many applications such as visual search. The tensorboard snapshot on the right shows the training loss of SSD object detector trained for several days on 2 Tesla M60 AWS GPUs. The required training files were prepared using Apache Spark. This makes it possible to scale object detection to massive datasets and achieve high mean average precision (mAP).  
+
+References:  
+*https://www.kaggle.com/c/google-ai-open-images-object-detection-track*  
+
+
 ### online comments classification  
 
 The goal of online comments classification competition is to identify toxic comments and classify them into multiple categories, i.e. multi-label classification. LSTM and CNN neural neworks operating on pre-trained FastText word embeddings were used to identify patterns characteristic of toxic comments.
